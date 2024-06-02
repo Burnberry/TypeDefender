@@ -53,12 +53,13 @@ class LabelVisual(Visual):
         R, G, B, _ = self.label.color
         return R, G, B
 
-    def setColor(self, color):
+    def updateColor(self, color):
         if len(color) == 4:
             self.label.color = color
+            return
         R, G, B = color
         _, _, _, A = self.getColor(RGBA=True)
-        self.setColor((R, G, B, A))
+        self.updateColor((R, G, B, A))
 
     def getOpacity(self):
         _, _, _, opacity = self.getColor(RGBA=True)
@@ -66,7 +67,7 @@ class LabelVisual(Visual):
 
     def setOpacity(self, opacity):
         R, G, B = self.getColor()
-        self.setColor((R, G, B, opacity))
+        self.updateColor((R, G, B, opacity))
 
     def getVisible(self):
         return self.label.visible

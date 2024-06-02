@@ -29,7 +29,7 @@ class ShapeVisual(Visual):
     def getColor(self):
         return self.shape.color
 
-    def setColor(self, color):
+    def updateColor(self, color):
         self.shape.color = color
 
     def getOpacity(self):

@@ -33,9 +33,9 @@ class MultiVisual(Visual):
     def getColor(self):
         return self.primaryVisual.getColor()
 
-    def setColor(self, color):
+    def updateColor(self, color):
         for visual in self.visuals:
-            visual.setColor(color)
+            visual.updateColor(color)
 
     def getOpacity(self):
         return self.primaryVisual.getOpacity()

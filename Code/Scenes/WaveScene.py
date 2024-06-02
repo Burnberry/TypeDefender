@@ -62,20 +62,16 @@ class WaveScene(Scene):
         self.line.remove()
 
     def update(self, dt):
-        #print(dt)
         self.base.update(dt)
         for enemy in self.enemies:
             enemy.update(dt)
         for gem in self.gems:
             gem.update(dt)
         self.waveHandler.update(dt)
+
         self.handleInput(dt)
 
         self.updateEnd(dt)
-
-    def updateEnd(self, dt):
-        if self.isDead:
-            self.restart()
 
     def handleInput(self, dt):
         controller = self.getController()
@@ -90,6 +86,10 @@ class WaveScene(Scene):
             self.powerPressed()
         if controller.isControlPressed(controller.enter):
             self.onEnter()
+
+    def updateEnd(self, dt):
+        if self.isDead:
+            self.restart()
 
     def onTextChanged(self):
         self.inputLine = self.inputLine.replace('\r', '').replace(' ', '')
@@ -123,16 +123,18 @@ class WaveScene(Scene):
     def addGem(self, gem):
         self.gems.append(gem)
 
+    def setPower(self, power):
+        self.power = power
+        self.powerBar.setProgress(self.power / self.maxPower)
+
     def addPower(self, energy):
         self.power += energy
-        self.power = min(self.power, self.maxPower)
-        self.powerBar.setProgress(self.power/self.maxPower)
+        self.setPower(min(self.power, self.maxPower))
 
     def powerPressed(self):
-        if self.power >= self.maxPower:
-            print("power pressed")
-            self.power = 0
-            self.addPower(0)
+        if self.power >= self.maxPower or True:
+            self.setPower(0)
+            self.game.switchScene("manage")
 
     def spawnEnemy(self):
         w, h = SettingsGlobal.Width, SettingsGlobal.Height

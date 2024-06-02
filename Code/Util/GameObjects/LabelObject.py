@@ -1,4 +1,3 @@
-from Code.Util.GameObjects.BackgroundObject import BackgroundObject
 from Code.Util.GameObjects.GameObject import GameObject
 from Code.Util.GameObjects.TextObject import TextObject
 
@@ -8,7 +7,7 @@ class LabelObject(TextObject):
         self.anchorParent = (anchorParentX, anchorParentY)
         anchorX, anchorY = self.getAnchor()
         super().__init__(scene, text, 0, 0, parent, anchorX=anchorX, anchorY=anchorY)
-        # self.backgroundBox = BackgroundObject(scene, self)
+
         self.onParentSetPosition(*parent.getPosition())
 
     def onParentSetPosition(self, x, y):

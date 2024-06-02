@@ -6,6 +6,7 @@ class TextObject(GameObject):
     def __init__(self, scene, text, x, y, parent=None, anchorX="center", anchorY="bottom"):
         self.text = text
         visual = LabelVisual(x, y, self.getDisplayText(), scene.batch, scene.Group.Text, anchorX=anchorX, anchorY=anchorY)
+        visual.colors['highlight'] = (255, 255, 0)
         super().__init__(scene, visual, x, y, parent)
 
     def update(self, dt):

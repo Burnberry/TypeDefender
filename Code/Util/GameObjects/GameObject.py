@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from Code.Util.Controller import Controller
+
 
 class GameObject(ABC):
     def __init__(self, scene, visual, x=0, y=0, parent=None):
@@ -71,3 +73,8 @@ class GameObject(ABC):
 
     def onParentSetPosition(self, x, y):
         self.setPosition(x, y)
+
+    def isInside(self, x, y):
+        w, h = self.getDimensions()
+        x0, y0 = self.getPosition()
+        return (x0 <= x <= x0+w) and (y0 <= y <= y0+h)

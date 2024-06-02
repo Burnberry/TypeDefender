@@ -2,8 +2,11 @@ from abc import ABC, abstractmethod
 
 
 class Visual(ABC):
-    def __init__(self):
-        pass
+    def __init__(self, colors=None, color=(255,255,255)):
+        self.colors: dict[str, tuple[int, int, int]] = colors or {}
+        self.color = color
+        self.activeColor = color
+        self.activeColorKey = False
 
     @abstractmethod
     def remove(self):
@@ -37,7 +40,7 @@ class Visual(ABC):
         pass
 
     @abstractmethod
-    def setColor(self, color):
+    def updateColor(self, color):
         pass
 
     @abstractmethod
@@ -63,3 +66,28 @@ class Visual(ABC):
     @abstractmethod
     def setScale(self, scale):
         pass
+
+    def setColor(self, color):
+        self.color = color
+        if not self.activeColorKey:
+            self.activeColor = self.color
+        self._updateColor()
+
+    def getActiveColor(self):
+        return self.activeColor
+
+    def _updateColor(self):
+        color = self.getActiveColor()
+        self.updateColor(color)
+
+    def highlight(self, on=True):
+        self.activateColor('highlight', on)
+
+    def activateColor(self, colorKey, on=True):
+        if on and self.colors.get(colorKey, False):
+            self.activeColor = self.colors.get(colorKey)
+            self.activeColorKey = colorKey
+        elif not on:
+            self.activeColor = self.color
+            self.activeColorKey = False
+        self._updateColor()

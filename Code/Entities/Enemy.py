@@ -5,7 +5,7 @@ from Code.Util.GameObjects.LabelObject import LabelObject
 
 
 class Enemy(GameObject):
-    def __init__(self, scene, visual, x, y, maxSpeed=15, health=2):
+    def __init__(self, scene, visual, x, y, maxSpeed=15, health=1):
         super().__init__(scene, visual, x, y)
         self.maxSpeed = maxSpeed
         self.speed = maxSpeed

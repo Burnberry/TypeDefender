@@ -31,7 +31,7 @@ class SpriteVisual(Visual):
     def getColor(self):
         return self.sprite.color
 
-    def setColor(self, color):
+    def updateColor(self, color):
         self.sprite.color = color
 
     def getOpacity(self):

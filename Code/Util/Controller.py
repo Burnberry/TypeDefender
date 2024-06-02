@@ -64,12 +64,16 @@ class Controller:
 
         @self.window.event
         def on_mouse_press(x, y, button, modifiers):
-            on_key_press(button, modifiers)
+            control = self.getControl(button)
+            if control:  # False if unused key
+                self.pressControl(control)
             self.resetControl(self.pause)
 
         @self.window.event
         def on_mouse_release(x, y, button, modifiers):
-            on_key_release(button, modifiers)
+            control = self.getControl(button)
+            if control:  # False if unused key
+                self.releaseControl(control)
 
         @self.window.event
         def on_mouse_motion(x, y, dx, dy):

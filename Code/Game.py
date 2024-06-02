@@ -3,6 +3,7 @@ import time
 from pyglet import clock, gl
 from pyglet.window import Window, NoSuchConfigException
 
+from Code.Scenes.ManageScene import ManageScene
 from Code.Scenes.WaveScene import WaveScene
 from Code.Util.Saves import *
 
@@ -46,8 +47,8 @@ class Game:
         # Game Data
         self.loadData()
 
-        # Scene
-        self.scene = WaveScene(self)
+        self.scenes = self.createScenes()
+        self.scene = self.scenes["wave"]
 
     def start(self):
         self.run = True
@@ -108,6 +109,12 @@ class Game:
         if self.scene is not None:
             self.scene.clear()
         self.scene = sceneClass(self)
+
+    def switchScene(self, name):
+        self.scene = self.scenes[name]
+
+    def createScenes(self):
+        return {"wave": WaveScene(self), "manage": ManageScene(self)}
 
     def end(self):
         pass

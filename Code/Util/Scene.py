@@ -9,6 +9,7 @@ class Scene(ABC):
         self.game: Code.Game.Game = game
         self.switchState = None
         self.gameObjects, self.visualObjects = [], []
+        self.buttons = set()
 
         # render stuff
         self.batch = graphics.Batch()
@@ -21,6 +22,15 @@ class Scene(ABC):
     @abstractmethod
     def handleInput(self, dt):
         pass
+
+    def updateButtons(self, dt):
+        for button in self.getOrderedButtons():
+            if button.updateButton(dt):
+                return
+
+    def getOrderedButtons(self):
+        """return copy of buttons, should return an ordered list instead, preferably saved"""
+        return list(self.buttons)
 
     def draw(self):
         self.window.clear()
@@ -40,8 +50,24 @@ class Scene(ABC):
     def addVisualObject(self, visualObject):
         self.visualObjects.append(visualObject)
 
+    def addButton(self, button):
+        self.buttons.add(button)
+
+    def removeButton(self, button):
+        if button in self.buttons:
+            self.buttons.remove(button)
+
+    def getCamera(self):
+        return self.game.camera
+
     def getController(self):
         return self.game.controller
+
+    def getMousePosition(self, gameCoordinates=True):
+        x, y = self.getController().mousePosition
+        if gameCoordinates:
+            x, y = self.getCamera().screenToGameCoords(x, y)
+        return x, y
 
     class Group:
         Background = graphics.Group(order=10)
