@@ -8,11 +8,12 @@ from Code.Util.Visuals.Shapes import PolygonShape
 
 
 class Gem(GameObject):
-    def __init__(self, scene, x, y, spread=8, color=(20, 220, 60)):
+    def __init__(self, scene, x, y, value=1, spread=8, color=(20, 220, 60)):
         self.color = color
         visual = MultiVisual(self.createVisuals(scene))
         super().__init__(scene, visual, x, y)
 
+        self.value = value
         self.idleTime = 1
 
         angle, r = random.random(), random.random()*spread

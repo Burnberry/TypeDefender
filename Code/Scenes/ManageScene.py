@@ -10,7 +10,7 @@ class ManageScene(Scene):
         super().__init__(game)
         obj = TextObject(self, "APPEL", *self.getCamera().getCenter())
         BackgroundObject(self, obj, shape=RectangleShape, x_offset=3)
-        self.buttonBack = Button(obj, print, actionArgs=('test',))
+        self.buttonBack = Button(obj, self.buttonPress)
 
     def update(self, dt):
         self.handleInput(dt)
@@ -20,3 +20,6 @@ class ManageScene(Scene):
         controller = self.getController()
         if controller.isControlPressed(controller.space):
             self.game.switchScene("wave")
+
+    def buttonPress(self):
+        print(self.game.gameState.gems)

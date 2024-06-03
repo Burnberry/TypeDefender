@@ -3,6 +3,7 @@ import time
 from pyglet import clock, gl
 from pyglet.window import Window, NoSuchConfigException
 
+from Code.Logic.GameState import GameState
 from Code.Scenes.ManageScene import ManageScene
 from Code.Scenes.WaveScene import WaveScene
 from Code.Util.Saves import *
@@ -140,7 +141,7 @@ class Game:
         pass
 
     def loadData(self):
-        pass
+        self.gameState = GameState()
         # self.inventory = loadSave("inventory", Inventory)
 
     def resetSave(self):

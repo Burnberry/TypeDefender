@@ -118,7 +118,7 @@ class WaveScene(Scene):
 
     def onGemCollected(self, gem):
         self.gems.remove(gem)
-        print("+1 gems")
+        self.game.gameState.gems += gem.value
 
     def addGem(self, gem):
         self.gems.append(gem)
