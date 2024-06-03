@@ -23,6 +23,9 @@ class MultiVisual(Visual):
     def getDimensions(self):
         return self.primaryVisual.getDimensions()
 
+    def getAnchoredDimensions(self):
+        return self.primaryVisual.getAnchoredDimensions()
+
     def getRotation(self):
         return self.primaryVisual.getRotation()
 

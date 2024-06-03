@@ -28,6 +28,10 @@ class Visual(ABC):
         pass
 
     @abstractmethod
+    def getAnchoredDimensions(self):
+        pass
+
+    @abstractmethod
     def getRotation(self):
         pass
 

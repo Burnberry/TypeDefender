@@ -21,6 +21,10 @@ class SpriteVisual(Visual):
 
     def getDimensions(self):
         return self.sprite.width, self.sprite.height
+    def getAnchoredDimensions(self):
+        w, h = self.getDimensions()
+        x, y = self.getPosition()
+        return x, y, w, h
 
     def getRotation(self):
         return self.sprite.rotation

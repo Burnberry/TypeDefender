@@ -53,6 +53,12 @@ class GameObject(ABC):
         sw, sh = self.visual.getDimensions()
         return self.scene.game.camera.screenToGameCoords(sw, sh)
 
+    def getAnchoredDimensions(self):
+        sx, sy, sw, sh = self.visual.getAnchoredDimensions()
+        x, y = self.scene.game.camera.screenToGameCoords(sx, sy)
+        w, h = self.scene.game.camera.screenToGameCoords(sw, sh)
+        return x, y, w, h
+
     def setRemoved(self, removed):
         self.removed = removed
 
@@ -75,6 +81,6 @@ class GameObject(ABC):
         self.setPosition(x, y)
 
     def isInside(self, x, y):
-        w, h = self.getDimensions()
-        x0, y0 = self.getPosition()
+        x0, y0, w, h = self.getAnchoredDimensions()
+        print(x0, y0, w, h, x, y)
         return (x0 <= x <= x0+w) and (y0 <= y <= y0+h)

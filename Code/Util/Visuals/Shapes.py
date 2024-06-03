@@ -7,12 +7,18 @@ from PygEdits.Shapes.MyShapes import MyRectangle, MyMultiLine
 class CircleShape(ShapeVisual):
     def __init__(self, x, y, r, batch, group):
         circle = pyglet.shapes.Arc(x, y, r, batch=batch, group=group)
+        print(circle.anchor_x, circle.anchor_y)
         self.r = r
         super().__init__(circle)
 
     def getDimensions(self):
         r = self.r
         return 2*r, 2*r
+
+    def getAnchoredDimensions(self):
+        r = self.r
+        x, y = self.getPosition()
+        return x-r, y-r, 2*r, 2*r
 
 
 class RectangleShape(ShapeVisual):
@@ -42,3 +48,8 @@ class PolygonShape(ShapeVisual):
         shape = pyglet.shapes.Polygon(*points, batch=batch, group=group)
         shape.width, shape.height = w, h
         super().__init__(shape)
+
+    def getAnchoredDimensions(self):
+        w, h = self.getDimensions()
+        x, y = self.getPosition()
+        return x, y, w, h

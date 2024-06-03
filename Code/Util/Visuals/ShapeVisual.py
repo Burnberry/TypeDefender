@@ -20,6 +20,13 @@ class ShapeVisual(Visual):
     def getDimensions(self):
         return self.shape.width, self.shape.height
 
+    def getAnchoredDimensions(self):
+        w, h = self.getDimensions()
+        x, y = self.getPosition()
+        x += self.shape._anchor_x
+        y += self.shape._anchor_y
+        return x, y, w, h
+
     def getRotation(self):
         return self.shape.rotation
 

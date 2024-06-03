@@ -41,6 +41,13 @@ class LabelVisual(Visual):
     def getDimensions(self):
         return self.label.content_width, self.label.content_height
 
+    def getAnchoredDimensions(self):
+        w, h = self.getDimensions()
+        x, y = self.getPosition()
+        x += self.label._get_left_anchor()
+        y += self.label._get_bottom_anchor()
+        return x, y, w, h
+
     def getRotation(self):
         return self.label.rotation
 
