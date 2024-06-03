@@ -3,15 +3,17 @@ from Code.Util.Visuals.Shapes import BoxShape
 
 
 class BackgroundObject(GameObject):
-    def __init__(self, scene, parent: GameObject, thickness=1):
-        x, y = parent.visual.getCenter()
-        w, h = parent.visual.getDimensions()
-        w += 2*thickness
-        h += 2*thickness
+    def __init__(self, scene, parent: GameObject, x_offset=1, y_offset=1, shape=BoxShape, *args):
+        x, y, w, h = parent.visual.getAnchoredDimensions()
+        camera = scene.getCamera()
+        x_offset, y_offset = camera.gameToScreenCoords(x_offset, y_offset)
+        x -= x_offset
+        y -= y_offset
+        w += x_offset
+        h += y_offset
 
-        visual = BoxShape(x, y, w, h, batch=scene.batch, group=scene.Group.Background)
-        visual.setColor((100, 0, 0))
-        super().__init__(scene, visual, x, y, parent)
+        visual = shape(x, y, w, h, batch=scene.batch, group=scene.Group.Background, *args)
+        super().__init__(scene, visual, x, y, parent=parent)
 
     def update(self, dt):
         pass

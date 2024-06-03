@@ -82,5 +82,4 @@ class GameObject(ABC):
 
     def isInside(self, x, y):
         x0, y0, w, h = self.getAnchoredDimensions()
-        print(x0, y0, w, h, x, y)
         return (x0 <= x <= x0+w) and (y0 <= y <= y0+h)

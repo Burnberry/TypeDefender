@@ -7,7 +7,6 @@ from PygEdits.Shapes.MyShapes import MyRectangle, MyMultiLine
 class CircleShape(ShapeVisual):
     def __init__(self, x, y, r, batch, group):
         circle = pyglet.shapes.Arc(x, y, r, batch=batch, group=group)
-        print(circle.anchor_x, circle.anchor_y)
         self.r = r
         super().__init__(circle)
 
