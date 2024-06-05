@@ -13,6 +13,7 @@ class BackgroundObject(GameObject):
         h += y_offset
 
         visual = shape(x, y, w, h, batch=scene.batch, group=scene.Group.Background, *args)
+        visual.colors['highlight'] = (255, 255, 0)
         super().__init__(scene, visual, x, y, parent=parent)
 
     def update(self, dt):
@@ -21,6 +22,10 @@ class BackgroundObject(GameObject):
     def onMessage(self, obj, message):
         pass
 
-    def setPosition(self, x, y):
-        x, y = self.parent.visual.getCenter()
-        self.visual.setPosition(x, y)
+    def onParentSetPosition(self, x, y):
+        cx, cy = self.parent.visual.getCenter()
+        x, y = self.scene.getCamera().screenToGameCoords(cx, cy)
+        self.setPosition(x, y)
+
+    def isInside(self, x, y):
+        return super().isInside(x, y)

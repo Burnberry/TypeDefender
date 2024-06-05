@@ -113,6 +113,7 @@ class Game:
 
     def switchScene(self, name):
         self.scene = self.scenes[name]
+        self.scene.onSceneSwitch()
 
     def createScenes(self):
         return {"wave": WaveScene(self), "manage": ManageScene(self)}

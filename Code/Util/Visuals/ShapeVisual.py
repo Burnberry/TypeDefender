@@ -23,8 +23,8 @@ class ShapeVisual(Visual):
     def getAnchoredDimensions(self):
         w, h = self.getDimensions()
         x, y = self.getPosition()
-        x += self.shape._anchor_x
-        y += self.shape._anchor_y
+        x -= self.shape._anchor_x
+        y -= self.shape._anchor_y
         return x, y, w, h
 
     def getRotation(self):

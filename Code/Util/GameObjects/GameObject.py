@@ -1,21 +1,22 @@
 from abc import ABC, abstractmethod
 
 from Code.Util.Controller import Controller
+from Code.Util.Scene import Scene
 
 
 class GameObject(ABC):
     def __init__(self, scene, visual, x=0, y=0, parent=None):
         self.removed = False
-        self.scene = scene
+        self.scene: Scene = scene
         self.visual = visual
         self.scene.addGameObject(self)
 
-        self.setParent(parent)
         self.children: list[GameObject] = []
 
         self.listeners = set()
 
         self.setPosition(x, y)
+        self.setParent(parent)
 
     @abstractmethod
     def update(self, dt):
@@ -71,6 +72,7 @@ class GameObject(ABC):
 
     def addChild(self, child: 'GameObject'):
         self.children.append(child)
+        child.onParentSetPosition(*self.getPosition())
 
     def setParent(self, parent: 'GameObject'):
         self.parent = parent
@@ -82,4 +84,28 @@ class GameObject(ABC):
 
     def isInside(self, x, y):
         x0, y0, w, h = self.getAnchoredDimensions()
-        return (x0 <= x <= x0+w) and (y0 <= y <= y0+h)
+        if (x0 <= x <= x0+w) and (y0 <= y <= y0+h):
+            return True
+        for child in self.children:
+            if child.isInside(x, y):
+                return True
+        return False
+
+    def highlight(self, on=True):
+        self.visual.highlight(on)
+        for child in self.children:
+            child.visual.highlight(on)
+
+    def setColor(self, color, passOn=True):
+        self.visual.setColor(color)
+        if not passOn:
+            return
+        for child in self.children:
+            child.setColor(color, passOn)
+
+    def addColors(self, colors,  passOn=True):
+        self.visual.addColors(colors)
+        if not passOn:
+            return
+        for child in self.children:
+            child.addColors(colors, passOn)

@@ -2,15 +2,15 @@ from Code.Util.GameObjects.GameObject import GameObject
 
 
 class Button:
-    def __init__(self, gameObject, action, active=True, order=0, actionArgs=None, actionKwargs=None):
+    def __init__(self, gameObject, action, active=True, order=0, actionArgs=None, actionKwargs=None, check=lambda: True):
         self.gameObject = gameObject
-        self.action = action
         self.active = active
         self.order = order
+        self.action = action
         self.actionArgs, self.actionKwargs = actionArgs or (), actionKwargs or {}
+        self.check = check
 
         self.gameObject.scene.addButton(self)
-        self.gameObject.addChild(self)
 
         self.hovered = self.checkHovered()
         if self.hovered:
@@ -39,4 +39,4 @@ class Button:
         return self.gameObject.isInside(x, y)
 
     def highlight(self, on=True):
-        self.gameObject.visual.highlight(on)
+        self.gameObject.highlight(on)

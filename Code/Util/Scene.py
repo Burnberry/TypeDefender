@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from pyglet import graphics
 
 import Code.Game
+from Code.Util.Camera import Camera
 
 
 class Scene(ABC):
@@ -44,6 +45,9 @@ class Scene(ABC):
     def setSwitchState(self, state):
         self.switchState = state
 
+    def onSceneSwitch(self):
+        pass
+
     def addGameObject(self, gameObject):
         self.gameObjects.append(gameObject)
 
@@ -57,7 +61,7 @@ class Scene(ABC):
         if button in self.buttons:
             self.buttons.remove(button)
 
-    def getCamera(self):
+    def getCamera(self) -> Camera:
         return self.game.camera
 
     def getController(self):
