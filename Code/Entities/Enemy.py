@@ -5,7 +5,7 @@ from Code.Util.GameObjects.LabelObject import LabelObject
 
 
 class Enemy(GameObject):
-    def __init__(self, scene, visual, x, y, maxSpeed=15, health=1):
+    def __init__(self, scene, visual, x, y, maxSpeed=15, health=3):
         super().__init__(scene, visual, x, y)
         self.maxSpeed = maxSpeed
         self.speed = maxSpeed
@@ -48,8 +48,8 @@ class Enemy(GameObject):
         dx, dy = dx / d, dy / d
         return dx, dy
 
-    def onAttackedByLine(self):
-        self.onAttacked(1)
+    def onAttackedByLine(self, damage=1):
+        self.onAttacked(damage)
         if self.getHealth() > 0:
             self.setNewWord()
 

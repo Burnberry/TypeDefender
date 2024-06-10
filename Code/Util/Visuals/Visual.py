@@ -98,6 +98,5 @@ class Visual(ABC):
 
     def addColors(self, colors):
         self.colors.update(colors)
-        for key in colors:
-            if key == self.activeColorKey:
-                self.activateColor(key)
+        if self.activeColorKey in colors:
+            self.activateColor(self.activeColorKey)

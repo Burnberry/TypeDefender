@@ -28,6 +28,10 @@ class WaveScene(Scene):
         self.powerBar = None
         self.power, self.maxPower = 0, 100
 
+        ### upgrades
+        self.gameState.listen('damage', self.onUpgrade)
+        self.damage = self.gameState.getValue('damage')
+
         self.wordGen = WordGen()
         self.waveHandler = WaveHandler(self)
 
@@ -105,9 +109,10 @@ class WaveScene(Scene):
         enemies = [enemy for enemy in self.enemies]
         for enemy in enemies:
             if enemy.getWord() == line:
-                enemy.onAttackedByLine()
+                enemy.onAttackedByLine(self.damage)
 
     def onBaseAttack(self):
+        self.gameState.setValue('death', True)
         self.isDead = True
 
     def onEnemyKilled(self, enemy):
@@ -118,10 +123,15 @@ class WaveScene(Scene):
 
     def onGemCollected(self, gem):
         self.gems.remove(gem)
-        self.game.gameState.gems += gem.value
+        self.game.gameState.setValue('gems', self.game.gameState.getValue('gems') + gem.value)
 
     def addGem(self, gem):
         self.gems.append(gem)
+
+    def onUpgrade(self, upgrade, value):
+        if upgrade == 'damage':
+            self.damage = value
+
 
     def setPower(self, power):
         self.power = power

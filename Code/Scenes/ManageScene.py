@@ -1,4 +1,5 @@
 from Code.Factories.Factories import Factory
+from Code.Upgrades.Upgrade import *
 from Code.Util.GameObjects.BackgroundObject import BackgroundObject
 from Code.Util.GameObjects.TextObject import TextObject
 from Code.Util.ObjectLogic.Button import Button
@@ -6,21 +7,30 @@ from Code.Util.Scene import Scene
 from Code.Util.Visuals.Shapes import RectangleShape
 
 
-
-
 class ManageScene(Scene):
     def __init__(self, game):
         super().__init__(game)
         self.buttonBack = Factory.createButton(self, "back", 310, 170,  self.actionBack)
 
-        self.buttonUpgradeDamage = Factory.createButton(self, "Damage Up", 160, 90,  self.actionUpgradeDamage, check=self.checkUpgradeDamage)
-        self.costUpgradeDamage = 1
+        self.upgrades = []
+        for upgrade in [Damage]:
+            self.upgrades.append(upgrade(self))
+
+        self.gameState.listen('death', self.onDeath)
+
+        # self.buttonUpgradeDamage = Factory.createButton(self, "Damage Up", 160, 90,  self.actionUpgradeDamage, check=self.checkUpgradeDamage)
+        # self.costUpgradeDamage = 1
 
     def update(self, dt):
         self.handleInput(dt)
 
     def onSceneSwitch(self):
+        pass
         self.checkButtons()
+
+    def onDeath(self, subject, value):
+        for upgrade in self.upgrades:
+            upgrade.reset()
 
     def handleInput(self, dt):
         self.updateButtons(dt)

@@ -67,7 +67,6 @@ class Game:
             return
 
         self.scene.update(self.dt)
-        self.handleScene()
         self.scene.draw()
 
         self.controller.updateReset()
@@ -98,18 +97,6 @@ class Game:
         if self.controller.isControlPressed(Controller.pause):
             self.controller.updateReset()
             return
-
-    def handleScene(self):
-        if not self.scene.switchState:
-            return
-
-        if self.scene.switchState == "WAVE":
-            self.setScene(WaveScene)
-
-    def setScene(self, sceneClass):
-        if self.scene is not None:
-            self.scene.clear()
-        self.scene = sceneClass(self)
 
     def switchScene(self, name):
         self.scene = self.scenes[name]

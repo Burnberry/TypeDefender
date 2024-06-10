@@ -29,7 +29,7 @@ class Button:
             self.highlight(self.hovered)
 
         controller = self.gameObject.scene.getController()
-        if self.hovered and controller.isControlPressed(controller.click):
+        if self.hovered and controller.isControlPressed(controller.click) and self.check():
             self.action(*self.actionArgs, **self.actionKwargs)
 
         return self.hovered

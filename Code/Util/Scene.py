@@ -8,7 +8,7 @@ from Code.Util.Camera import Camera
 class Scene(ABC):
     def __init__(self, game):
         self.game: Code.Game.Game = game
-        self.switchState = None
+        self.gameState = self.game.gameState
         self.gameObjects, self.visualObjects = [], []
         self.buttons = set()
 
