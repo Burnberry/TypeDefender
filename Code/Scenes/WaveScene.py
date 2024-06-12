@@ -4,6 +4,7 @@ import random
 from pyglet.shapes import Line, BezierCurve, Box
 
 from Code.Entities.Base import Base
+from Code.Entities.Buildings.Mine import Mine
 from Code.Entities.Enemies.SquareEnemy import SquareEnemy
 from Code.Entities.Enemies.TriangleEnemy import TriangleEnemy
 from Code.Logic.WaveHandler import WaveHandler
@@ -11,6 +12,7 @@ from Code.Logic.WordGen import WordGen
 from Code.UI.PowerBar import PowerBar
 from Code.Util.GameObjects.TestObject import TestObject
 from Code.Util.GameObjects.TextObject import TextObject
+from Code.Util.ObjectLogic.GemCounter import GemCounter
 from Code.Util.Scene import Scene
 from Code.Util.SettingsGlobal import SettingsGlobal
 from Code.Util.Visuals.Shapes import MultiLine
@@ -28,6 +30,9 @@ class WaveScene(Scene):
         self.powerBar = None
         self.power, self.maxPower = 0, 100
 
+        self.gemCount = GemCounter(self)
+        self.buildings = []
+
         ### upgrades
         self.gameState.listen('damage', self.onUpgrade)
         self.damage = self.gameState.getValue('damage')
@@ -40,6 +45,7 @@ class WaveScene(Scene):
     def start(self):
         self.inputLine = ""
         self.enemies = []
+        self.buildings = []
         self.gems = []
         self.base = None
         self.line = None
@@ -47,6 +53,7 @@ class WaveScene(Scene):
         self.power = 0
 
         self.createBase()
+        self.buildings.append(Mine(self, 20, 30))
         self.powerBar = PowerBar(self)
         for i in range(0):
             self.spawnEnemy()
@@ -61,6 +68,8 @@ class WaveScene(Scene):
             enemy.remove()
         for gem in self.gems:
             gem.remove()
+        for building in self.buildings:
+            building.remove()
         self.base.remove()
         self.powerBar.remove()
         self.line.remove()
@@ -101,6 +110,8 @@ class WaveScene(Scene):
 
     def onEnter(self):
         self.onAttack(self.inputLine)
+        for building in self.buildings:
+            building.onEnter(self.inputLine)
 
         self.inputLine = ""
         self.onTextChanged()
@@ -131,7 +142,6 @@ class WaveScene(Scene):
     def onUpgrade(self, upgrade, value):
         if upgrade == 'damage':
             self.damage = value
-
 
     def setPower(self, power):
         self.power = power

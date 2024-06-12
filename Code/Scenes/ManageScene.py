@@ -3,6 +3,7 @@ from Code.Upgrades.Upgrade import *
 from Code.Util.GameObjects.BackgroundObject import BackgroundObject
 from Code.Util.GameObjects.TextObject import TextObject
 from Code.Util.ObjectLogic.Button import Button
+from Code.Util.ObjectLogic.GemCounter import GemCounter
 from Code.Util.Scene import Scene
 from Code.Util.Visuals.Shapes import RectangleShape
 
@@ -17,6 +18,8 @@ class ManageScene(Scene):
             self.upgrades.append(upgrade(self))
 
         self.gameState.listen('death', self.onDeath)
+
+        self.gemCount = GemCounter(self)
 
         # self.buttonUpgradeDamage = Factory.createButton(self, "Damage Up", 160, 90,  self.actionUpgradeDamage, check=self.checkUpgradeDamage)
         # self.costUpgradeDamage = 1
